@@ -6,14 +6,14 @@ import Logo from '../assets/logo.svg';
 import { Button } from '../components/Button';
 
 export function SignIn() {
-  const { signIn } = useAuth();
+  const { signIn, user } = useAuth();
 
   return (
     <Center flex={1} bg="gray.900" p={7}>
       <Logo width={212} height={40} />
 
       <Button
-        type="PRIMARY"
+        type="SECONDARY"
         title="Entrar com google"
         leftIcon={<Icon as={Fontisto} name="google" color="white" size="md" />}
         mt={12}

@@ -2,11 +2,11 @@
   "expo": {
     "name": "nlwcopamobile",
     "slug": "nlwcopamobile",
-    "scheme": "nlwcopamobile",
+    "scheme": "pollmobile",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "cover",
@@ -16,16 +16,15 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "br.com.mobiletkbrazil.pollmobile"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      }
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
+        "backgroundColor": "#000000"
+      },
+      "package": "br.com.mobiletkbrazil.pollmobile"
     },
     "extra": {
       "eas": {

@@ -1,4 +1,10 @@
-import { ReactNode, createContext, useState } from 'react';
+import { ReactNode, createContext, useEffect, useState } from 'react';
+import * as WebBrowser from 'expo-web-browser';
+import * as Google from 'expo-auth-session/providers/google';
+
+import { ANDROID_CLIENT_ID, IOS_CLIENT_ID } from '@env';
+
+WebBrowser.maybeCompleteAuthSession();
 
 interface UserProps {
   name: string;
@@ -21,20 +27,20 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
   const [user, setUser] = useState<UserProps>({} as UserProps);
   const [isUserLoading, setIsUserLoading] = useState(false);
 
-  // const [request, response, promptAsync] = Google.useAuthRequest({
-  //   clientId: '91382439033-tbvv8glacc58rqdjbj12556edmt0ojt1.apps.googleusercontent.com',
-  //   redirectUri: AuthSession.makeRedirectUri(),
-  //   scopes: ['profile', 'email']
-  // });
+  const [request, response, promptAsync] = Google.useAuthRequest({
+    androidClientId: ANDROID_CLIENT_ID,
+    iosClientId: IOS_CLIENT_ID,
+    scopes: ['profile', 'email'],
+  });
+
+  async function signInWithGoogle(access_token: string) {
+    console.log("TOKEN DE AUTENTICAÇÃO =>", access_token);
+  }
 
   async function signIn() {
     try {
       setIsUserLoading(true);
-      //TODO: autenticação com o google
-      setUser({
-        name: 'Andreoid',
-        avatarUrl: 'https://github.com/alkunde.png',
-      });
+      await promptAsync();
     } catch (error) {
       console.log(error);
       throw error;
@@ -42,6 +48,12 @@ export function AuthContextProvider({ children }: AuthProviderProps) {
       setIsUserLoading(false);
     }
   }
+
+  useEffect(() => {
+    if (response?.type === 'success' && response.authentication?.accessToken) {
+      signInWithGoogle(response.authentication?.accessToken);
+    }
+  }, [response]);
 
   return (
     <AuthContext.Provider value={{
